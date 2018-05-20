@@ -5,7 +5,6 @@
 
 	<groupId>com.zpp.console</groupId>
 	<artifactId>bpay-console</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<name>bpay-console</name>
