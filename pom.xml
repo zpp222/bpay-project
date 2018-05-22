@@ -9,6 +9,7 @@
 	<modules>
 		<module>bpay-console</module>
 		<module>bpay-service</module>
+		<module>bpay-eureka</module>
 	</modules>
 
 	<parent>
