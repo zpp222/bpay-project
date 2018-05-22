@@ -8,14 +8,8 @@
 			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{ip}] [%thread] %-5level %logger{50} - %msg%n</pattern>
 		</encoder>
 	</appender>
-	<logger name="org.springframework" level="INFO">
-		<appender-ref ref="STDOUT" />
-	</logger>
-	<logger name="org.springframework.web" level="INFO">
-		<appender-ref ref="STDOUT" />
-	</logger>
 	<!-- 日志输出级别 -->
-	<root level="INFO">
+	<root level="debug">
 		<appender-ref ref="STDOUT" />
 	</root>
 </configuration>
