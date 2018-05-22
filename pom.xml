@@ -18,6 +18,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
+	<properties>
+	</properties>
+	
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
