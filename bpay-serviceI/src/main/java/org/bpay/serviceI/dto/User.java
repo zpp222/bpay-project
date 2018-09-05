@@ -1,11 +1,17 @@
-package com.zpp.service.bpayservice.dto;
+package org.bpay.serviceI.dto;
 
-public class User {
+import java.io.Serializable;
 
+public class User implements Serializable{
+
+	private static final long serialVersionUID = 6215798795710985677L;
+	
 	private String id;
 	private String sex;
 	private String phone;
 	private String name;
+	private String passwd;
+	
 	public String getId() {
 		return id;
 	}
@@ -29,6 +35,12 @@ public class User {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getPasswd() {
+		return passwd;
+	}
+	public void setPasswd(String passwd) {
+		this.passwd = passwd;
 	}
 
 }
