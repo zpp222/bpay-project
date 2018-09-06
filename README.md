@@ -1,8 +1,8 @@
 # bpay-project
 
-# spring boot/cloud
-## dubbo for service and console.
-## eureka for console and client with eureka.
+## spring boot/cloud
+### 1.dubbo for service and console.
+### 2.eureka for console and client with eureka.
 
 ## db
 ### 1.mysql relation db.
