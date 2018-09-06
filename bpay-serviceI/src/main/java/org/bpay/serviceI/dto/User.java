@@ -2,6 +2,8 @@ package org.bpay.serviceI.dto;
 
 import java.io.Serializable;
 
+import net.sf.json.JSONObject;
+
 public class User implements Serializable{
 
 	private static final long serialVersionUID = 6215798795710985677L;
@@ -41,6 +43,10 @@ public class User implements Serializable{
 	}
 	public void setPasswd(String passwd) {
 		this.passwd = passwd;
+	}
+	@Override
+	public String toString() {
+		return JSONObject.fromObject(this).toString();
 	}
 
 }

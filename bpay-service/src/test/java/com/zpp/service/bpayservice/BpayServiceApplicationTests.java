@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.zpp.service.bpayservice.repository.ConsumersCollections;
 import com.zpp.service.bpayservice.service.impl.UserServiceImpl;
 
 @RunWith(SpringRunner.class)
@@ -19,10 +20,20 @@ public class BpayServiceApplicationTests {
 	@Resource
 	private UserServiceImpl userService;
 
+	@Resource
+	private ConsumersCollections consumersCollections;
+	
 	@Test
 	public void contextLoads() {
 		User user = userService.login("zpp");
 		assertEquals("18729211089", user.getPhone());
+	}
+	
+	@Test
+	public void mongoTest(){
+		User user = new User();
+		user.setName("zpp");
+		consumersCollections.insert(user);
 	}
 
 }
