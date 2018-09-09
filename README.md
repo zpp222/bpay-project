@@ -5,9 +5,9 @@
 ### 2.eureka for console and client with eureka.
 
 ## db
-### 1.mysql relation db.
-### 2.mongodb document store.
-### 3.redis\hezalcast key/value.
+### 1.mysql relation db for service.
+### 2.mongodb document store for store.
+### 3.redis\hezalcast key/value for no.
 
 ## Messaging
-### kafka https://docs.spring.io/spring-boot/docs/2.0.4.RELEASE/reference/htmlsingle/#howto-customize-the-responsebody-rendering
+### 1. kafka for store with service.
