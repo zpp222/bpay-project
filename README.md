@@ -8,3 +8,6 @@
 ### 1.mysql relation db.
 ### 2.mongodb document store.
 ### 3.redis\hezalcast key/value.
+
+## Messaging
+### kafka https://docs.spring.io/spring-boot/docs/2.0.4.RELEASE/reference/htmlsingle/#howto-customize-the-responsebody-rendering

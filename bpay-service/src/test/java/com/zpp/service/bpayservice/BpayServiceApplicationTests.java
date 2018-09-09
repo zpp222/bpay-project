@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.zpp.service.bpayservice.repository.ConsumersCollections;
+import com.zpp.service.bpayservice.kafka.LogDataSend;
 import com.zpp.service.bpayservice.service.impl.UserServiceImpl;
 
 @RunWith(SpringRunner.class)
@@ -20,8 +20,9 @@ public class BpayServiceApplicationTests {
 	@Resource
 	private UserServiceImpl userService;
 
+	
 	@Resource
-	private ConsumersCollections consumersCollections;
+	private LogDataSend logDataSend;
 	
 	@Test
 	public void contextLoads() {
@@ -30,10 +31,14 @@ public class BpayServiceApplicationTests {
 	}
 	
 	@Test
-	public void mongoTest(){
+	public void kafkaTest(){
 		User user = new User();
-		user.setName("zpp");
-		consumersCollections.insert(user);
+		user.setId("7123");
+		user.setName("张鹏鹏");
+		user.setPasswd("no");
+		user.setPhone("18729211089");
+		user.setSex("男");
+		logDataSend.sendLog(user.toString());
 	}
 
 }

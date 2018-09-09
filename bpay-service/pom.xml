@@ -77,11 +77,6 @@
         	<artifactId>bpay-serviceI</artifactId>
         	<version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <!-- mongodb -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
-		</dependency>
 	</dependencies>
 
 	<build>
