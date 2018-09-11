@@ -3,6 +3,7 @@
 ## spring boot/cloud
 ### 1.dubbo for service and console.
 ### 2.eureka for console and client with eureka.
+### 3.Hystrix
 
 ## db
 ### 1.mysql relation db for service.

@@ -1,0 +1,30 @@
+######################mysql#############
+1、#下载并安装
+docker search mysql
+docker pull mysql
+2、#启动mysql
+run -p 3308:3306 --name mysql_docker -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs:/logs -v $PWD/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -d mysql
+3、#进入容器
+docker exec -it mysql_docker bash
+4、#登录mysql
+mysql -u root -p
+密码：root
+
+
+#####################MongoDB#################
+1、#下载并安装
+docker search mongo
+docker pull mongo
+2、#启动mongo
+docker run --name mongo_docker -p 27117:27017 -v $PWD/mongodb/data:/data/db -v $PWD/mongodb/backup:/data/backup -d mongo --auth
+-p 27117:27017 :将容器的27017 端口映射到主机的27117 端口
+-v $PWD/db:/data/db :将主机中当前目录下的db挂载到容器的/data/db，作为mongo数据存储目录
+3、进入mongo
+docker exec -it mongo_docker mongo admin
+4、创建用户
+db.createUser({ user: "zpp", pwd: "zpp", roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] });
+db.auth("zpp","zpp")
+use test;
+db.createUser({user:"testuser",pwd:"testpass",roles:["readWrite"]});
+db.auth("testuser","testpass")
+
