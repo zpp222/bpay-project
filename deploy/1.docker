@@ -1,27 +1,27 @@
 ######################mysql#############
-1、#下载并安装
+#1、下载并安装
 docker search mysql
 docker pull mysql
-2、#启动mysql
+#2、启动mysql
 run -p 3308:3306 --name mysql_docker -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs:/logs -v $PWD/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -d mysql
-3、#进入容器
+#3、进入容器
 docker exec -it mysql_docker bash
-4、#登录mysql
+#4、登录mysql
 mysql -u root -p
-密码：root
+#密码：root
 
 
 #####################MongoDB#################
-1、#下载并安装
+#1、下载并安装
 docker search mongo
 docker pull mongo
-2、#启动mongo
+#2、启动mongo
 docker run --name mongo_docker -p 27117:27017 -v $PWD/mongodb/data:/data/db -v $PWD/mongodb/backup:/data/backup -d mongo --auth
 -p 27117:27017 :将容器的27017 端口映射到主机的27117 端口
 -v $PWD/db:/data/db :将主机中当前目录下的db挂载到容器的/data/db，作为mongo数据存储目录
-3、进入mongo
+#3、进入mongo
 docker exec -it mongo_docker mongo admin
-4、创建用户
+#4、创建用户
 db.createUser({ user: "zpp", pwd: "zpp", roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] });
 db.auth("zpp","zpp")
 use test;
@@ -30,9 +30,9 @@ db.auth("testuser","testpass")
 
 
 #####################zookeeper#################
-1、#下载
+#1、下载
 docker pull zookeeper
-2、启动
+#2、启动
 docker run --name zookeeper_docker -p 2181:2181 -d --hostname 192.168.8.201 zookeeper
 docker exec -it zookeeper_docker bash
 
@@ -59,3 +59,22 @@ docker exec -it kafka_docker_slave2 bash
 127.0.0.1       kafka_node1
 127.0.0.1       kafka_node2
 127.0.0.1       kafka_node3
+
+
+#####################redis#################################
+#1.下载安装
+docker search  redis
+docker pull  redis
+#2.运行容器
+docker run --name redis_docker -p 6379:6379 -v $PWD/data/redis:/data  -d redis:3.2 redis-server --appendonly yes
+##命令说明：
+##-p 6379:6379 : 将容器的6379端口映射到主机的6379端口
+##-v $PWD/data:/data : 将主机中当前目录下的data挂载到容器的/data
+##redis-server --appendonly yes : 在容器执行redis-server启动命令，并打开redis持久化配置
+#连接
+docker exec -it redis_docker redis-cli
+#####################RabbitMQ###############################
+docker search  rabbitmq
+docker pull  rabbitmq
+docker run -d --hostname localhost --name rabbitmq_docker -p 15672:15672 rabbitmq
+docker exec -it rabbitmq_docker bash
