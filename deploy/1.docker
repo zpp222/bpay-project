@@ -29,10 +29,6 @@ db.createUser({user:"testuser",pwd:"testpass",roles:["readWrite"]});
 db.auth("testuser","testpass")
 
 
-
-docker network create kafka-net
-
-
 #####################zookeeper#################
 1、#下载
 docker pull zookeeper
