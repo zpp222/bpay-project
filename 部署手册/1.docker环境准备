@@ -28,3 +28,38 @@ use test;
 db.createUser({user:"testuser",pwd:"testpass",roles:["readWrite"]});
 db.auth("testuser","testpass")
 
+
+
+docker network create kafka-net
+
+
+#####################zookeeper#################
+1、#下载
+docker pull zookeeper
+2、启动
+docker run --name zookeeper_docker -p 2181:2181 -d --hostname 192.168.8.201 zookeeper
+docker exec -it zookeeper_docker bash
+
+docker logs -f zookeeper_docker
+
+#####################kafka#################
+docker pull ches/kafka
+#kafka_node1
+docker run -d --name kafka_docker  -p 9092:9092 -p 7203:7203 --link zookeeper_docker:zookeeper --env KAFKA_ADVERTISED_PORT=9092 --env KAFKA_PORT=9092 --env KAFKA_BROKER_ID=0 \
+--hostname 192.168.8.202 --env KAFKA_ADVERTISED_HOST_NAME=kafka_node1 ches/kafka
+docker exec -it kafka_docker bash
+
+#kafka_node2
+docker run -d --name kafka_docker_slave1  -p 9093:9093 -p 7204:7203 --link zookeeper_docker:zookeeper --env KAFKA_ADVERTISED_PORT=9093 --env KAFKA_PORT=9093 --env KAFKA_BROKER_ID=1 \
+--hostname 192.168.8.203 --env KAFKA_ADVERTISED_HOST_NAME=kafka_node2 ches/kafka
+docker exec -it kafka_docker_slave1 bash
+
+#kafka_node3
+docker run -d --name kafka_docker_slave2  -p 9094:9094 -p 7205:7203 --link zookeeper_docker:zookeeper --env KAFKA_ADVERTISED_PORT=9094 --env KAFKA_PORT=9094 --env KAFKA_BROKER_ID=2 \
+--hostname 192.168.8.204 --env KAFKA_ADVERTISED_HOST_NAME=kafka_node3 ches/kafka
+docker exec -it kafka_docker_slave2 bash
+
+#####################宿主hosts 配置########################
+127.0.0.1       kafka_node1
+127.0.0.1       kafka_node2
+127.0.0.1       kafka_node3
