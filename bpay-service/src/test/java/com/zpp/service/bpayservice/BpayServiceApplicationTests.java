@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.zpp.service.bpayservice.kafka.LogDataSend;
+import com.zpp.service.bpayservice.redis.RedisHandler;
 import com.zpp.service.bpayservice.service.impl.UserServiceImpl;
 
 @RunWith(SpringRunner.class)
@@ -20,9 +21,11 @@ public class BpayServiceApplicationTests {
 	@Resource
 	private UserServiceImpl userService;
 
-	
 	@Resource
 	private LogDataSend logDataSend;
+	
+	@Resource
+	private RedisHandler redisHandler;
 	
 	@Test
 	public void contextLoads() {
@@ -39,6 +42,12 @@ public class BpayServiceApplicationTests {
 		user.setPhone("18729211089");
 		user.setSex("男");
 		logDataSend.sendLog(user.toString());
+	}
+	
+	@Test
+	public void redisHandlerTest(){
+		long result = redisHandler.bitCount("zpp_t");
+		System.out.println("########"+result);
 	}
 
 }

@@ -9,17 +9,25 @@ import org.springframework.stereotype.Component;
 @Component
 public class RedisHandler {
 	private StringRedisTemplate template;
-	
+
 	@Autowired
 	public RedisHandler(StringRedisTemplate template) {
 		this.template = template;
 	}
-	
-	public void put(String key,String value, long milseconds){
-		template.opsForValue().set(key, value,milseconds,TimeUnit.MILLISECONDS);
+
+	public void put(String key, String value, long milseconds) {
+		template.opsForValue().set(key, value, milseconds, TimeUnit.MILLISECONDS);
+	}
+
+	public String get(String key) {
+		return template.opsForValue().get(key);
+	}
+
+	public void setBit(String key, long offset, boolean value) {
+		template.opsForValue().setBit(key, offset, value);
 	}
 	
-	public String get(String key){
-		return template.opsForValue().get(key);
+	public long bitCount(String key){
+		return template.getConnectionFactory().getConnection().bitCount(key.getBytes());
 	}
 }
