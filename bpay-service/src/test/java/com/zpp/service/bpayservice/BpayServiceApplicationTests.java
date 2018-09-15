@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.zpp.service.bpayservice.kafka.LogDataSend;
+import com.zpp.service.bpayservice.mq.RabbitMQSend;
 import com.zpp.service.bpayservice.redis.RedisHandler;
 import com.zpp.service.bpayservice.service.impl.UserServiceImpl;
 
@@ -26,6 +27,9 @@ public class BpayServiceApplicationTests {
 	
 	@Resource
 	private RedisHandler redisHandler;
+	
+	@Resource
+	private RabbitMQSend rabbitMQSend;
 	
 	@Test
 	public void contextLoads() {
@@ -48,6 +52,11 @@ public class BpayServiceApplicationTests {
 	public void redisHandlerTest(){
 		long result = redisHandler.bitCount("zpp_t");
 		System.out.println("########"+result);
+	}
+	
+	@Test
+	public void RabbitMQSendTest(){
+		rabbitMQSend.send("hello word ~");
 	}
 
 }

@@ -76,5 +76,13 @@ docker exec -it redis_docker redis-cli
 #####################RabbitMQ###############################
 docker search  rabbitmq
 docker pull  rabbitmq
-docker run -d --hostname localhost --name rabbitmq_docker -p 15672:15672 rabbitmq
+docker run -d --hostname localhost --name rabbitmq_docker -p 15672:15672 -p 5672:5672 rabbitmq
 docker exec -it rabbitmq_docker bash
+#启动管理端(http://localhost:15672/#/)
+rabbitmq-plugins enable rabbitmq_management
+#创建用户并授权
+rabbitmqctl add_user  zpp  zpp
+rabbitmqctl set_user_tags zpp administrator
+### 这个virtual host "/"中所有资源的配置、写、读权限以便管理其中的资源
+rabbitmqctl set_permissions -p /  zpp '.*' '.*' '.*'
+### 在管理端创建队列someQueue
