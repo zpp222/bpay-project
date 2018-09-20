@@ -33,7 +33,7 @@ db.auth("testuser","testpass")
 #1、下载
 docker pull zookeeper
 #2、启动
-docker run --name zookeeper_docker -p 2181:2181 -d --hostname 192.168.8.201 zookeeper
+docker run --name zookeeper_docker -p 2181:2181 -d zookeeper
 docker exec -it zookeeper_docker bash
 
 docker logs -f zookeeper_docker
@@ -41,19 +41,23 @@ docker logs -f zookeeper_docker
 #####################kafka#################
 docker pull ches/kafka
 #kafka_node1
-docker run -d --name kafka_docker  -p 9092:9092 -p 7203:7203 --link zookeeper_docker:zookeeper --env KAFKA_ADVERTISED_PORT=9092 --env KAFKA_PORT=9092 --env KAFKA_BROKER_ID=0 \
---hostname 192.168.8.202 --env KAFKA_ADVERTISED_HOST_NAME=kafka_node1 ches/kafka
-docker exec -it kafka_docker bash
+docker run -d --name kafka_docker  -p 9092:9092 --link zookeeper_docker:zookeeper --env KAFKA_ADVERTISED_PORT=9092 --env KAFKA_PORT=9092 --env KAFKA_BROKER_ID=0 \
+--env KAFKA_ADVERTISED_HOST_NAME=kafka_node1 ches/kafka
 
+docker run --rm ches/kafka bin/kafka-topics.sh --create --topic logTopic --partitions 1 --replication-factor 1 --zookeeper 172.17.0.4:2181
+docker run --rm ches/kafka bin/kafka-topics.sh --delete --topic logTopic --zookeeper 172.17.0.4:2181
+docker run --rm ches/kafka bin/kafka-topics.sh --list --zookeeper 172.17.0.4:2181
+
+docker exec -it kafka_docker bash
 #kafka_node2
 docker run -d --name kafka_docker_slave1  -p 9093:9093 -p 7204:7203 --link zookeeper_docker:zookeeper --env KAFKA_ADVERTISED_PORT=9093 --env KAFKA_PORT=9093 --env KAFKA_BROKER_ID=1 \
---hostname 192.168.8.203 --env KAFKA_ADVERTISED_HOST_NAME=kafka_node2 ches/kafka
+--env KAFKA_ADVERTISED_HOST_NAME=kafka_node2 ches/kafka
 docker exec -it kafka_docker_slave1 bash
 
 #kafka_node3
 docker run -d --name kafka_docker_slave2  -p 9094:9094 -p 7205:7203 --link zookeeper_docker:zookeeper --env KAFKA_ADVERTISED_PORT=9094 --env KAFKA_PORT=9094 --env KAFKA_BROKER_ID=2 \
---hostname 192.168.8.204 --env KAFKA_ADVERTISED_HOST_NAME=kafka_node3 ches/kafka
-docker exec -it kafka_docker_slave2 bash
+--env KAFKA_ADVERTISED_HOST_NAME=kafka_node3 ches/kafka
+docker exec -it kafka_docker_slave2 
 
 #####################宿主hosts 配置########################
 127.0.0.1       kafka_node1
@@ -73,10 +77,13 @@ docker run --name redis_docker -p 6379:6379 -v $PWD/data/redis:/data  -d redis:3
 ##redis-server --appendonly yes : 在容器执行redis-server启动命令，并打开redis持久化配置
 #连接
 docker exec -it redis_docker redis-cli
+
+
+
 #####################RabbitMQ###############################
 docker search  rabbitmq
 docker pull  rabbitmq
-docker run -d --hostname localhost --name rabbitmq_docker -p 15672:15672 -p 5672:5672 rabbitmq
+docker run -d --name rabbitmq_docker -p 15672:15672 -p 5672:5672 rabbitmq
 docker exec -it rabbitmq_docker bash
 #启动管理端(http://localhost:15672/#/)
 rabbitmq-plugins enable rabbitmq_management

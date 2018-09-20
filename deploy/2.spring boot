@@ -1,0 +1,6 @@
+###########################bpay-service#################################
+cd /Users/zpp/docker
+cp Dockerfile and bpay-service-0.0.1-SNAPSHOT.jar to here.
+### 构建镜像
+docker build -t service_docker .
+docker run -d --name=service_docker_node1 -p 8080:8080 -t service_docker
