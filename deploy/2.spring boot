@@ -33,3 +33,10 @@ cp Dockerfile and bpay-client-0.0.1-SNAPSHOT.jar to here.
 ### 构建镜像
 docker build -t client_docker .
 docker run -d --name=client_docker_node1 -p 3333:3333 client_docker
+
+
+
+
+
+
+docker inspect c5217f7bd44c|grep IPAddress

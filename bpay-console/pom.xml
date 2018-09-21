@@ -6,7 +6,6 @@
 
 	<groupId>com.zpp.console</groupId>
 	<artifactId>bpay-console</artifactId>
-	<packaging>war</packaging>
 
 	<name>bpay-console</name>
 	<description>Demo project for Spring Boot</description>
