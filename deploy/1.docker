@@ -85,7 +85,7 @@ docker search  rabbitmq
 docker pull  rabbitmq
 docker run -d --name rabbitmq_docker -p 15672:15672 -p 5672:5672 rabbitmq
 docker exec -it rabbitmq_docker bash
-#启动管理端(http://localhost:15672/#/)
+#启动管理端(http://ip:15672/#/)
 rabbitmq-plugins enable rabbitmq_management
 #创建用户并授权
 rabbitmqctl add_user  zpp  zpp
