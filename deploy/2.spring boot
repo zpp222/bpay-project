@@ -17,8 +17,9 @@ cd /Users/zpp/docker/eureka
 cp Dockerfile and bpay-eureka-0.0.1-SNAPSHOT.jar to here.
 ### 构建镜像
 docker build -t eureka_docker .
-docker run -d --name=eureka_docker_node1 -p 8761:8761 eureka_docker
-
+docker run -d --name=eureka_docker_node1 -p 8081:1111 eureka_docker
+# docker run -it --rm -P eureka_docker
+docker exec -it eureka_docker_node1 netstat -anl|grep 1111
 ###########################bpay-console#################################
 cd /Users/zpp/docker/console
 cp Dockerfile and bpay-console-0.0.1-SNAPSHOT.jar to here.

@@ -93,3 +93,8 @@ rabbitmqctl set_user_tags zpp administrator
 ### 这个virtual host "/"中所有资源的配置、写、读权限以便管理其中的资源
 rabbitmqctl set_permissions -p /  zpp '.*' '.*' '.*'
 ### 在管理端创建队列someQueue
+
+#####################tomcat###############################
+docker pull tomcat
+docker run -d -p 8888:8080 --name=tomcat_docker tomcat
+docker exec -it tomcat_docker bash
