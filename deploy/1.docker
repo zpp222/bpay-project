@@ -1,9 +1,13 @@
+# https://download.docker.com/mac/stable/Docker.dmg
+#===========创建静态网段=========
+docker network create --subnet 172.18.0.1/16 net_docker
+docker inspect net_docker
 ######################mysql#############
 #1、下载并安装
 docker search mysql
 docker pull mysql
 #2、启动mysql
-run -p 3308:3306 --name mysql_docker -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs:/logs -v $PWD/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -d mysql
+docker run -p 3308:3306 --name mysql_docker -v $PWD/conf:/etc/mysql/conf.d -v $PWD/logs:/logs -v $PWD/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -d --net net_docker --ip 172.18.0.2 mysql
 #3、进入容器
 docker exec -it mysql_docker bash
 #4、登录mysql
@@ -16,13 +20,14 @@ mysql -u root -p
 docker search mongo
 docker pull mongo
 #2、启动mongo
-docker run --name mongo_docker -p 27117:27017 -v $PWD/mongodb/data:/data/db -v $PWD/mongodb/backup:/data/backup -d mongo --auth
--p 27117:27017 :将容器的27017 端口映射到主机的27117 端口
--v $PWD/db:/data/db :将主机中当前目录下的db挂载到容器的/data/db，作为mongo数据存储目录
+docker run --name mongo_docker -p 27117:27017 -v $PWD/mongodb/data:/data/db -v $PWD/mongodb/backup:/data/backup --net net_docker --ip 172.18.0.3 -d mongo --auth
+# 第二次执行时需要删除$PWD/mongodb文件
+##-p 27117:27017 :将容器的27017 端口映射到主机的27117 端口
+##-v $PWD/db:/data/db :将主机中当前目录下的db挂载到容器的/data/db，作为mongo数据存储目录
 #3、进入mongo
 docker exec -it mongo_docker mongo admin
 #4、创建用户
-db.createUser({ user: "zpp", pwd: "zpp", roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] });
+db.createUser({ user: "zpp", pwd: "zpp", roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] })
 db.auth("zpp","zpp")
 use test;
 db.createUser({user:"testuser",pwd:"testpass",roles:["readWrite"]});
@@ -33,30 +38,33 @@ db.auth("testuser","testpass")
 #1、下载
 docker pull zookeeper
 #2、启动
-docker run --name zookeeper_docker -p 2181:2181 -d zookeeper
+docker run --net net_docker --ip 172.18.0.4 --name zookeeper_docker -p 2181:2181 -d zookeeper
 docker exec -it zookeeper_docker bash
 
 docker logs -f zookeeper_docker
 
 #####################kafka#################
 docker pull ches/kafka
-#kafka_node1
-docker run -d --name kafka_docker  -p 9092:9092 --link zookeeper_docker:zookeeper --env KAFKA_ADVERTISED_PORT=9092 --env KAFKA_PORT=9092 --env KAFKA_BROKER_ID=0 \
---env KAFKA_ADVERTISED_HOST_NAME=kafka_node1 ches/kafka
+#kafka_node1 
+docker run -d --name kafka_docker  -p 9092:9092 --env KAFKA_ADVERTISED_PORT=9092 --env KAFKA_PORT=9092 --env KAFKA_BROKER_ID=0 \
+--env KAFKA_ADVERTISED_HOST_NAME=kafka_node1 --env ZOOKEEPER_CONNECTION_STRING=172.18.0.4:2181 \
+--net net_docker --ip 172.18.0.5  ches/kafka
 
-docker run --rm ches/kafka bin/kafka-topics.sh --create --topic logTopic --partitions 1 --replication-factor 1 --zookeeper 172.17.0.4:2181
-docker run --rm ches/kafka bin/kafka-topics.sh --delete --topic logTopic --zookeeper 172.17.0.4:2181
-docker run --rm ches/kafka bin/kafka-topics.sh --list --zookeeper 172.17.0.4:2181
+#docker run --rm ches/kafka bin/kafka-topics.sh --create --topic logTopic --partitions 1 --replication-factor 1 --zookeeper 172.17.0.4:2181
+#docker run --rm ches/kafka bin/kafka-topics.sh --delete --topic logTopic --zookeeper 172.17.0.4:2181
+#docker run --rm ches/kafka bin/kafka-topics.sh --list --zookeeper 172.17.0.4:2181
 
 docker exec -it kafka_docker bash
 #kafka_node2
-docker run -d --name kafka_docker_slave1  -p 9093:9093 -p 7204:7203 --link zookeeper_docker:zookeeper --env KAFKA_ADVERTISED_PORT=9093 --env KAFKA_PORT=9093 --env KAFKA_BROKER_ID=1 \
---env KAFKA_ADVERTISED_HOST_NAME=kafka_node2 ches/kafka
+docker run -d --name kafka_docker_slave1  -p 9093:9093 -p 7204:7203 --env KAFKA_ADVERTISED_PORT=9093 --env KAFKA_PORT=9093 --env KAFKA_BROKER_ID=1 \
+--env KAFKA_ADVERTISED_HOST_NAME=kafka_node2  --env ZOOKEEPER_CONNECTION_STRING=172.18.0.4:2181 \
+--net net_docker --ip 172.18.0.6 ches/kafka
 docker exec -it kafka_docker_slave1 bash
 
 #kafka_node3
 docker run -d --name kafka_docker_slave2  -p 9094:9094 -p 7205:7203 --link zookeeper_docker:zookeeper --env KAFKA_ADVERTISED_PORT=9094 --env KAFKA_PORT=9094 --env KAFKA_BROKER_ID=2 \
---env KAFKA_ADVERTISED_HOST_NAME=kafka_node3 ches/kafka
+--env KAFKA_ADVERTISED_HOST_NAME=kafka_node3 --env ZOOKEEPER_CONNECTION_STRING=172.18.0.4:2181 \
+--net net_docker --ip 172.18.0.7 ches/kafka
 docker exec -it kafka_docker_slave2 
 
 #####################宿主hosts 配置########################
@@ -70,7 +78,7 @@ docker exec -it kafka_docker_slave2
 docker search  redis
 docker pull  redis
 #2.运行容器
-docker run --name redis_docker -p 6379:6379 -v $PWD/data/redis:/data  -d redis:3.2 redis-server --appendonly yes
+docker run --name redis_docker -p 6379:6379 -v $PWD/data/redis:/data --net net_docker --ip 172.18.0.8  -d redis redis-server --appendonly yes
 ##命令说明：
 ##-p 6379:6379 : 将容器的6379端口映射到主机的6379端口
 ##-v $PWD/data:/data : 将主机中当前目录下的data挂载到容器的/data
@@ -83,7 +91,7 @@ docker exec -it redis_docker redis-cli
 #####################RabbitMQ###############################
 docker search  rabbitmq
 docker pull  rabbitmq
-docker run -d --name rabbitmq_docker -p 15672:15672 -p 5672:5672 rabbitmq
+docker run -d --name rabbitmq_docker -p 15672:15672 -p 5672:5672 --net net_docker --ip 172.18.0.9 rabbitmq
 docker exec -it rabbitmq_docker bash
 #启动管理端(http://ip:15672/#/)
 rabbitmq-plugins enable rabbitmq_management
@@ -96,5 +104,5 @@ rabbitmqctl set_permissions -p /  zpp '.*' '.*' '.*'
 
 #####################tomcat###############################
 docker pull tomcat
-docker run -d -p 8888:8080 --name=tomcat_docker tomcat
+docker run -d -p 8888:8080 --name=tomcat_docker --net net_docker --ip 172.18.0.10 tomcat
 docker exec -it tomcat_docker bash
