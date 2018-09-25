@@ -13,6 +13,7 @@
 		<module>bpay-client</module>
 		<module>bpay-serviceI</module>
 		<module>bpay-store</module>
+		<module>bpay-gateway</module>
 	</modules>
 
 	<parent>
