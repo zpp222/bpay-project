@@ -1,3 +1,7 @@
+###########################宿主############################
+172.18.0.5       kafka_node1
+172.18.0.6       kafka_node2
+172.18.0.7       kafka_node3
 ###########################bpay-service#################################
 cd /Users/zpp/docker/service
 cp Dockerfile and bpay-service-0.0.1-SNAPSHOT.jar to here.
