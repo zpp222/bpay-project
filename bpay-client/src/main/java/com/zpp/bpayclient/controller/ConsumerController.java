@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+
+import com.zpp.bpayclient.service.ConsumerService;
 
 @RestController
 public class ConsumerController {
 
 	@Autowired
-	RestTemplate restTemplate;
-
+	ConsumerService consumerService;
+	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = {"application/json" }, consumes = "application/json")
 	public String login(@RequestBody String requestJson) {
 		HttpHeaders headers = new HttpHeaders();
@@ -23,7 +24,7 @@ public class ConsumerController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		// RestTemplate带参传的时候要用HttpEntity<?>对象传递
 		HttpEntity<String> request = new HttpEntity<String>(requestJson, headers);
-		String result = restTemplate.postForEntity("http://bpay-console/bpay/login", request, String.class).getBody();
+		String result = consumerService.login("http://bpay-console/bpay/login", request);
 		return result;
 	}
 }
