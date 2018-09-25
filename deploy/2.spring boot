@@ -3,21 +3,21 @@ cd /Users/zpp/docker/service
 cp Dockerfile and bpay-service-0.0.1-SNAPSHOT.jar to here.
 ### 构建镜像
 docker build -t service_docker .
-docker run -d --name=service_docker_node1 service_docker
+docker run -d --name=service_docker_node1 --net net_docker --ip 172.18.0.14 service_docker
 
 ###########################bpay-store#################################
 cd /Users/zpp/docker/store
 cp Dockerfile and bpay-store-0.0.1-SNAPSHOT.jar to here.
 ### 构建镜像
 docker build -t store_docker .
-docker run -d --name=store_docker_node1 store_docker
+docker run -d --name=store_docker_node1 --net net_docker --ip 172.18.0.15 store_docker
 
 ###########################bpay-eureka#################################
 cd /Users/zpp/docker/eureka
 cp Dockerfile and bpay-eureka-0.0.1-SNAPSHOT.jar to here.
 ### 构建镜像
 docker build -t eureka_docker .
-docker run -d --name=eureka_docker_node1 -p 8081:1111 eureka_docker
+docker run -d --name=eureka_docker_node1 -p 8081:1111 --net net_docker --ip 172.18.0.11 eureka_docker
 # docker run -it --rm -P eureka_docker
 docker exec -it eureka_docker_node1 netstat -anl|grep 1111
 ###########################bpay-console#################################
@@ -25,14 +25,14 @@ cd /Users/zpp/docker/console
 cp Dockerfile and bpay-console-0.0.1-SNAPSHOT.jar to here.
 ### 构建镜像
 docker build -t console_docker .
-docker run -d --name=console_docker_node1 -p 9000:9000 console_docker
+docker run -d --name=console_docker_node1 -p 9000:9000 --net net_docker --ip 172.18.0.12 console_docker
 
 ###########################bpay-client#################################
 cd /Users/zpp/docker/client
 cp Dockerfile and bpay-client-0.0.1-SNAPSHOT.jar to here.
 ### 构建镜像
 docker build -t client_docker .
-docker run -d --name=client_docker_node1 -p 3333:3333 client_docker
+docker run -d --name=client_docker_node1 -p 3333:3333 --net net_docker --ip 172.18.0.13 client_docker
 
 
 
