@@ -43,6 +43,7 @@ public class BpayAuthorizationServerConfigurerAdapter extends AuthorizationServe
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 		security.tokenKeyAccess("permitAll()");
 		security.checkTokenAccess("isAuthenticated()");
+		security.allowFormAuthenticationForClients();
 	}
 
 	/**
@@ -60,12 +61,14 @@ public class BpayAuthorizationServerConfigurerAdapter extends AuthorizationServe
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			http.authorizeRequests().anyRequest().authenticated().and().csrf().disable().formLogin();;
+			http.authorizeRequests().anyRequest().authenticated().and().csrf().disable();
+			http.formLogin().permitAll();
 		}
 
 		@Override
 		protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-			auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder());
+			auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser("zpp")
+					.password(new BCryptPasswordEncoder().encode("zpp!")).authorities("ROLE_USER", "ROLE_ADMIN");
 		}
 
 		@Override
@@ -74,5 +77,4 @@ public class BpayAuthorizationServerConfigurerAdapter extends AuthorizationServe
 			return super.authenticationManagerBean();
 		}
 	}
-
 }
