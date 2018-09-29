@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -20,6 +21,7 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 
 @Configuration
 @EnableAuthorizationServer
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class BpayAuthorizationServerConfigurerAdapter extends AuthorizationServerConfigurerAdapter {
 
 	@Autowired
@@ -53,15 +55,17 @@ public class BpayAuthorizationServerConfigurerAdapter extends AuthorizationServe
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory().withClient("client").secret("{noop}secret")
-				.authorizedGrantTypes("authorization_code", "refresh_token", "password").scopes("openid");
+				.authorizedGrantTypes("authorization_code", "refresh_token", "password").scopes("openid")
+				.redirectUris("http://localhost:3333/").autoApprove(true).accessTokenValiditySeconds(30)
+				.refreshTokenValiditySeconds(1800);
 	}
 
 	@Bean
-	public TokenStore tokenStore(){
+	public TokenStore tokenStore() {
 		TokenStore tokenStore = new InMemoryTokenStore();
 		return tokenStore;
 	}
-	
+
 	@Configuration
 	@EnableWebSecurity
 	protected static class webSecurityConfig extends WebSecurityConfigurerAdapter {
