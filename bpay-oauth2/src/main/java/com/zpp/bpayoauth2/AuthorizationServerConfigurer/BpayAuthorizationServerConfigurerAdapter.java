@@ -22,7 +22,8 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 @EnableAuthorizationServer
 public class BpayAuthorizationServerConfigurerAdapter extends AuthorizationServerConfigurerAdapter {
 
-	private TokenStore tokenStore = new InMemoryTokenStore();
+	@Autowired
+	private TokenStore tokenStore;
 
 	@Autowired
 	@Qualifier("authenticationManagerBean")
@@ -51,10 +52,16 @@ public class BpayAuthorizationServerConfigurerAdapter extends AuthorizationServe
 	 */
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory().withClient("client").secret("secret")
+		clients.inMemory().withClient("client").secret("{noop}secret")
 				.authorizedGrantTypes("authorization_code", "refresh_token", "password").scopes("openid");
 	}
 
+	@Bean
+	public TokenStore tokenStore(){
+		TokenStore tokenStore = new InMemoryTokenStore();
+		return tokenStore;
+	}
+	
 	@Configuration
 	@EnableWebSecurity
 	protected static class webSecurityConfig extends WebSecurityConfigurerAdapter {
