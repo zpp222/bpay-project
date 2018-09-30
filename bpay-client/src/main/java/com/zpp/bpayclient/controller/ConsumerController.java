@@ -38,4 +38,9 @@ public class ConsumerController {
 	public String test() {
 		return restTemplate.getForObject("http://localhost:9999/auth/open/test", String.class);
 	}
+
+	@GetMapping("/home")
+	public String home() {
+		return "hello!";
+	}
 }
