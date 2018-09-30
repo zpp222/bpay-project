@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -21,7 +23,7 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 
 @Configuration
 @EnableAuthorizationServer
-@EnableGlobalMethodSecurity(prePostEnabled=true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class BpayAuthorizationServerConfigurerAdapter extends AuthorizationServerConfigurerAdapter {
 
 	@Autowired
@@ -56,8 +58,9 @@ public class BpayAuthorizationServerConfigurerAdapter extends AuthorizationServe
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory().withClient("client").secret("{noop}secret")
 				.authorizedGrantTypes("authorization_code", "refresh_token", "password").scopes("openid")
-				.redirectUris("http://localhost:3333/").autoApprove(true).accessTokenValiditySeconds(30)
-				.refreshTokenValiditySeconds(1800);
+		// .redirectUris("http://localhost:3333/").autoApprove(true).accessTokenValiditySeconds(30)
+		// .refreshTokenValiditySeconds(1800)
+		;
 	}
 
 	@Bean
@@ -86,6 +89,16 @@ public class BpayAuthorizationServerConfigurerAdapter extends AuthorizationServe
 		@Bean
 		public AuthenticationManager authenticationManagerBean() throws Exception {
 			return super.authenticationManagerBean();
+		}
+	}
+
+	@Configuration
+	@EnableResourceServer
+	protected static class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
+		@Override
+		public void configure(HttpSecurity http) throws Exception {
+			http.formLogin().permitAll();
+			http.antMatcher("/auth").authorizeRequests().anyRequest().authenticated();
 		}
 	}
 }
