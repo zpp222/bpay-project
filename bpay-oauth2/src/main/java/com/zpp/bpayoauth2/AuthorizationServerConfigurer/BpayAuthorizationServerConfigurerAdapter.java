@@ -149,7 +149,6 @@ public class BpayAuthorizationServerConfigurerAdapter extends AuthorizationServe
 	protected static class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
-			http.formLogin().permitAll();
 			http.antMatcher("/auth").authorizeRequests().anyRequest().authenticated();
 		}
 	}

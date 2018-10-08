@@ -36,7 +36,14 @@ public class ConsumerController {
 
 	@GetMapping("/test")
 	public String test() {
+		System.out.println("#client test...");
 		return restTemplate.getForObject("http://localhost:9999/auth/open/test", String.class);
+	}
+	
+	@GetMapping("/test2")
+	public String test2() {
+		System.out.println("#client test2...");
+		return restTemplate.getForObject("http://localhost:9999/auth/open/test2", String.class);
 	}
 
 	@GetMapping("/home")

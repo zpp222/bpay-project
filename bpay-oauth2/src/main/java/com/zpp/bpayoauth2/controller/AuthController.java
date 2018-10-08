@@ -1,8 +1,6 @@
 package com.zpp.bpayoauth2.controller;
 
 import java.security.Principal;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
 	@RequestMapping("/user")
-	public Map<String, String> user(Principal principal) {
-		Map<String, String> map = new LinkedHashMap<>();
-		map.put("name", principal.getName());
-		return map;
-
-		// return principal;
+	public Principal user(Principal principal) {
+		return principal;
 	}
 
 	@GetMapping("/open/test")
