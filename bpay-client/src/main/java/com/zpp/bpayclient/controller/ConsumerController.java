@@ -21,11 +21,17 @@ public class ConsumerController {
 			"application/json" }, consumes = "application/json")
 	public String login(@RequestBody String requestJson) {
 		HttpHeaders headers = new HttpHeaders();
-		// 定义请求参数类型，这里用json所以是MediaType.APPLICATION_JSON
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		// RestTemplate带参传的时候要用HttpEntity<?>对象传递
 		HttpEntity<String> request = new HttpEntity<String>(requestJson, headers);
-		String result = consumerService.login("http://bpay-console/bpay/login", request);
+		String result = consumerService.exchange("http://bpay-console/bpay/login", request);
+		return result;
+	}
+
+	@RequestMapping(value = "/auth1", method = RequestMethod.GET)
+	public String oauth() {
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<String> request = new HttpEntity<String>("", headers);
+		String result = consumerService.exchangeWithAuth("http://localhost:9999/auth/open/test", request);
 		return result;
 	}
 }

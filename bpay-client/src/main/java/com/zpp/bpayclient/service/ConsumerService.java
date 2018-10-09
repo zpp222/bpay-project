@@ -15,8 +15,14 @@ public class ConsumerService {
 	RestTemplate restTemplate;
 	
 	@HystrixCommand(fallbackMethod = "failBack")
-	public String login(String url,Object request){
+	public String exchange(String url,Object request){
 		String result = restTemplate.postForEntity(url, request, String.class).getBody();
+		return result;
+	}
+	
+	@HystrixCommand(fallbackMethod = "failBack")
+	public String exchangeWithAuth(String url,Object request){
+		String result = "";
 		return result;
 	}
 	

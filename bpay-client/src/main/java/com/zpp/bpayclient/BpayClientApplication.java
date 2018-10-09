@@ -8,12 +8,18 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextListener;
 
 @EnableDiscoveryClient
 @EnableHystrix
 @SpringBootApplication
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class BpayClientApplication {
+
+	@Bean
+	public RequestContextListener requestContextListener() {
+		return new RequestContextListener();
+	}
 
 	@Bean
 	@LoadBalanced
