@@ -10,6 +10,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 public class BpayResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.antMatcher("/auth").authorizeRequests().anyRequest().authenticated();
+		http.antMatcher("/auth/**").authorizeRequests().anyRequest().authenticated();
 	}
 }
