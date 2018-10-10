@@ -1,4 +1,4 @@
-package com.zpp.bpayoauth2.resource;
+package com.zpp.bpayclient.sso;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,6 +10,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 public class BpayResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.antMatcher("/auth/**").authorizeRequests().anyRequest().authenticated();
+		http.antMatcher("/auth**").authorizeRequests().anyRequest()
+		.hasAnyAuthority("ROLE_USER")
+		.and().httpBasic();
 	}
 }
