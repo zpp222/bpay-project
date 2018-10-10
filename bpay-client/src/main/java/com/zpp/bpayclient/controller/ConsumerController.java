@@ -8,14 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 
 import com.zpp.bpayclient.service.ConsumerService;
+
+import net.sf.json.JSONObject;
 
 @RestController
 public class ConsumerController {
@@ -23,13 +25,18 @@ public class ConsumerController {
 	@Autowired
 	ConsumerService consumerService;
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = {
-			"application/json" }, consumes = "application/json")
-	public String login(@RequestBody String requestJson) {
+//	@RequestMapping(value = "/bpaylogin", method = {RequestMethod.POST,RequestMethod.GET}, produces = {"application/json" }, consumes = "application/json")
+	@RequestMapping(value = "/bpaylogin", method = {RequestMethod.POST,RequestMethod.GET})
+//	public String login(@RequestBody String requestJson) {
+	public String login(@RequestParam String name,@RequestParam String passwd) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
+		JSONObject json = new JSONObject();
+		json.put("name", name);
+		json.put("passwd", passwd);
+		String requestJson = json.toString();
 		HttpEntity<String> request = new HttpEntity<String>(requestJson, headers);
-		String result = consumerService.exchange("http://bpay-console/bpay/login", request);
+		String result = consumerService.exchange("http://bpay-gateway/bpay/login", request);
 		return result;
 	}
 
