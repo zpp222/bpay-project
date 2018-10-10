@@ -1,13 +1,19 @@
 package com.zpp.bpayclient.controller;
 
+import java.net.URISyntaxException;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientException;
 
 import com.zpp.bpayclient.service.ConsumerService;
 
@@ -28,10 +34,10 @@ public class ConsumerController {
 	}
 
 	@RequestMapping(value = "/auth1", method = RequestMethod.GET)
-	public String oauth() {
-		HttpHeaders headers = new HttpHeaders();
-		HttpEntity<String> request = new HttpEntity<String>("", headers);
-		String result = consumerService.exchangeWithAuth("http://localhost:9999/auth/open/test", request);
+	public String oauth(@RequestHeader HttpHeaders headers,HttpServletRequest httpRequest) throws RestClientException, URISyntaxException {
+		HttpEntity<String> request = new HttpEntity<String>(headers);
+//		System.out.println(headers);
+		String result = consumerService.getExchangeWithAuth("http://localhost:9999/auth/open/test", request);
 		return result;
 	}
 }
