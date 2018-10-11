@@ -11,7 +11,7 @@
  Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 11/10/2018 14:00:39
+ Date: 11/10/2018 17:20:07
 */
 
 SET NAMES utf8mb4;
@@ -50,7 +50,12 @@ CREATE TABLE `oauth_access_token` (
   `client_id` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `authentication` longblob,
   `refresh_token` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  PRIMARY KEY (`authentication_id`)
+  PRIMARY KEY (`authentication_id`),
+  KEY `token_id_index` (`token_id`),
+  KEY `authentication_id_index` (`authentication_id`),
+  KEY `user_name_index` (`user_name`),
+  KEY `client_id_index` (`client_id`),
+  KEY `refresh_token_index` (`refresh_token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -78,6 +83,30 @@ CREATE TABLE `oauth_client_details` (
 BEGIN;
 INSERT INTO `oauth_client_details` VALUES ('client', NULL, '{noop}secret', 'openid', 'authorization_code,refresh_token,password', NULL, NULL, 300, 1800, NULL, '1');
 COMMIT;
+
+-- ----------------------------
+-- Table structure for oauth_code
+-- ----------------------------
+DROP TABLE IF EXISTS `oauth_code`;
+CREATE TABLE `oauth_code` (
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `code` varchar(255) DEFAULT NULL,
+  `authentication` blob,
+  KEY `code_index` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for oauth_refresh_token
+-- ----------------------------
+DROP TABLE IF EXISTS `oauth_refresh_token`;
+CREATE TABLE `oauth_refresh_token` (
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `token_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `token` blob,
+  `authentication` blob,
+  PRIMARY KEY (`token_id`),
+  KEY `token_id_index` (`token_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for users
