@@ -24,16 +24,18 @@ DROP TABLE IF EXISTS `authorities`;
 CREATE TABLE `authorities` (
   `username` varchar(50) NOT NULL,
   `authority` varchar(50) NOT NULL,
+  `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
   KEY `fk_authorities_users` (`username`),
   CONSTRAINT `fk_authorities_users` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of authorities
 -- ----------------------------
 BEGIN;
-INSERT INTO `authorities` VALUES ('zpp', 'ROLE_ADMIN');
-INSERT INTO `authorities` VALUES ('zpp', 'ROLE_USER');
+INSERT INTO `authorities` VALUES ('zpp', 'ROLE_ADMIN', 0000000001);
+INSERT INTO `authorities` VALUES ('zpp', 'ROLE_USER', 0000000002);
 COMMIT;
 
 -- ----------------------------
