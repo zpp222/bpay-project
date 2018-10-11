@@ -11,3 +11,6 @@ grant_type:authorization_code
 code:yi0Rre
 redirect_uri:http://baidu.com
 scope:openid
+
+####
+spring-security-oauth2-2.2.1.RELEASE.jar
