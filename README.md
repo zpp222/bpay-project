@@ -16,5 +16,5 @@
 ## Cloud Routing
 ### Spring Cloud Gateway(NIO)
 
-## OAuth2 (https://projects.spring.io/spring-security-oauth/docs/oauth2.html)
+## OAuth2
 ### OAuth2 and client
