@@ -4,6 +4,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -15,6 +17,7 @@ import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -55,17 +58,17 @@ public class ConsumerService {
 		return headers;
 	}
 
-	public String getExchangeWithAuth(String url, HttpEntity<String> request)
-			throws RestClientException, URISyntaxException {
-		System.out.println("##############");
-		System.out.println(resource.getAccessTokenUri());
-		System.out.println(resource.getTokenName());
-		System.out.println(resource.getClientId());
-		System.out.println(context.getAccessToken().getValue());
-		System.out.println(context.getAccessTokenRequest().getAuthorizationCode());
+	public String getExchangeWithBasicAuth(String url, HttpServletRequest request, MultiValueMap<String, String> param) throws RestClientException, URISyntaxException{
+		RestTemplate op = new RestTemplate();
+		HttpEntity<String> httpEntity = new HttpEntity<String>(getHeadersWithClientCredentials());
+		String result = op.exchange(new URI(url), HttpMethod.GET, httpEntity, String.class).getBody();
+		return result;
+	}
+	
+	public String getExchangeWithOauth2(String url, HttpServletRequest request, MultiValueMap<String, String> param) throws RestClientException, URISyntaxException {
 		OAuth2RestOperations op = new OAuth2RestTemplate(resource, context);
-		HttpEntity<String> request11 = new HttpEntity<String>(getHeadersWithClientCredentials());
-		String result = op.exchange(new URI(url), HttpMethod.GET, request11, String.class).getBody();
+		HttpEntity<String> httpEntity = new HttpEntity<String>(param);
+		String result = op.exchange(new URI(url), HttpMethod.GET, httpEntity, String.class).getBody();
 		return result;
 	}
 

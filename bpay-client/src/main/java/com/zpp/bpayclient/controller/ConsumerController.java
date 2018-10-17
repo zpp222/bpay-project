@@ -42,9 +42,18 @@ public class ConsumerController {
 
 	@RequestMapping(value = "/auth1", method = RequestMethod.GET)
 	public String oauth(@RequestHeader HttpHeaders headers,HttpServletRequest httpRequest) throws RestClientException, URISyntaxException {
-		HttpEntity<String> request = new HttpEntity<String>(headers);
-//		System.out.println(headers);
-		String result = consumerService.getExchangeWithAuth("http://localhost:9999/auth/open/test", request);
+		String result = consumerService.getExchangeWithBasicAuth("http://localhost:9999/auth/open/test",httpRequest, headers);
+		return result;
+	}
+	
+	@RequestMapping(value = "/auth2", method = RequestMethod.GET)
+	public String oauth2(@RequestHeader HttpHeaders headers,HttpServletRequest httpRequest) {
+		String result ="";
+		try {
+			result = consumerService.getExchangeWithOauth2("http://localhost:9999/auth/open/test",httpRequest,headers);
+		} catch (Exception e) {
+			result = e.getMessage();
+		}
 		return result;
 	}
 }
