@@ -37,12 +37,12 @@ public class ConsumerService {
 	}
 	
 	public String getExchangeWithAuth(String url,HttpEntity<String> request) throws RestClientException, URISyntaxException{
-//		System.out.println("##############");
-//		System.out.println(resource.getAccessTokenUri());
-//		System.out.println(resource.getTokenName());
-//		System.out.println(resource.getClientId());
-//		System.out.println(context.getAccessToken().getValue());
-//		System.out.println(context.getAccessTokenRequest().getAuthorizationCode());
+		System.out.println("##############");
+		System.out.println(resource.getAccessTokenUri());
+		System.out.println(resource.getTokenName());
+		System.out.println(resource.getClientId());
+		System.out.println(context.getAccessToken().getValue());
+		System.out.println(context.getAccessTokenRequest().getAuthorizationCode());
 		OAuth2RestOperations op = new OAuth2RestTemplate(resource, context);
 		String result = op.exchange(new URI(url),HttpMethod.GET,request,String.class).getBody();
 		return result;
