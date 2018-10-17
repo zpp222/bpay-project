@@ -81,7 +81,9 @@ CREATE TABLE `oauth_client_details` (
 -- Records of oauth_client_details
 -- ----------------------------
 BEGIN;
+INSERT INTO `oauth_client_details` VALUES ('app', NULL, '{noop}secret', 'openid', 'password,client_credentials,refresh_token', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `oauth_client_details` VALUES ('client', NULL, '{noop}secret', 'openid', 'authorization_code,refresh_token,password', NULL, NULL, 300, 1800, NULL, '1');
+INSERT INTO `oauth_client_details` VALUES ('h5', NULL, '', 'openid', 'implicit', '', NULL, NULL, NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------

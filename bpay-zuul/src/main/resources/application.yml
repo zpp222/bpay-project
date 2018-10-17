@@ -1,0 +1,48 @@
+server:
+  port: 2222
+  
+  
+zuul:
+  routes:
+    bpay:
+     path: /bpay
+     serviceId: bpay-console
+     
+eureka:
+  client:
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:1111/eureka/
+    allow-redirects: true
+    cache-refresh-executor-thread-pool-size: 5
+    enabled: true
+    eureka-connection-idle-timeout-seconds: 30
+    eureka-server-connect-timeout-seconds: 5
+    register-with-eureka: false
+    registry-fetch-interval-seconds: 30
+  instance:
+    ip-address: 127.0.0.1
+    prefer-ip-address: true
+ribbon:
+  eureka:
+    enabled: true
+    
+#spring:
+#  cloud:
+#    zookeeper:
+#      connect-string: 127.0.0.1:2181
+#      discovery:
+#        enabled: true
+#        instance-host: 127.0.0.1
+#        instance-port: ${server.port}
+#        register: false
+
+security:
+  oauth2:
+    client:
+      access-token-uri: http://localhost:9999/auth/oauth/token
+      user-authorization-uri: http://localhost:9999/auth/oauth/authorize
+      client-id: client
+      client-secret: secret
+    resource:
+      token-info-uri: http://localhost:9999/auth/oauth/check_token
