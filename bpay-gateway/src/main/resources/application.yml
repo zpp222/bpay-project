@@ -1,0 +1,35 @@
+server:
+  address: 127.0.0.1
+  port: 7777
+spring:
+  application:
+    name: bpay-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      httpclient:
+        connect-timeout: 10000
+#      globalcors:
+#        cors-configurations:
+#          allowedMethods: GET,POST
+#          allowedOrigins: 127.0.0.1
+      routes:
+      - id: bpay_route
+        uri: lb://bpay-console/
+        predicates:
+        - After=2017-01-20T17:42:47.789-07:00[America/Denver]
+        - Path=/bpay/**
+      - id: oauth_route
+        uri: lb://bpay-oauth2/
+        predicates:
+        - After=2017-01-20T17:42:47.789-07:00[America/Denver]
+        - Path=/auth/**
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:1111/eureka/
+  instance:
+    ip-address: ${server.address}
+    prefer-ip-address: true

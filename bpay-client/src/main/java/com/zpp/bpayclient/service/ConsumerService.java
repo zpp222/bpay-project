@@ -2,19 +2,16 @@ package com.zpp.bpayclient.service;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 
-import org.apache.commons.codec.binary.Base64;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestOperations;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,13 +23,12 @@ import net.sf.json.JSONObject;
 public class ConsumerService {
 
 	@Autowired
+	@Qualifier("oauth")
+	OAuth2RestOperations oAuth2RestOperations;
+	
+	@Autowired
+	@Qualifier("nooauth")
 	RestTemplate restTemplate;
-
-	@Autowired
-	OAuth2ClientContext context;
-
-	@Autowired
-	OAuth2ProtectedResourceDetails resource;
 
 	@HystrixCommand(fallbackMethod = "failBack")
 	public String exchange(String url, Object request) {
@@ -40,36 +36,29 @@ public class ConsumerService {
 		return result;
 	}
 
-	private static HttpHeaders getHeaders() {
-		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-		return headers;
-	}
-
-	private static HttpHeaders getHeadersWithClientCredentials() {
-		String plainClientCredentials = "zpp:zpp!";
-		String base64ClientCredentials = new String(Base64.encodeBase64(plainClientCredentials.getBytes()));
-
-		HttpHeaders headers = getHeaders();
-		headers.add("Authorization", "Basic " + base64ClientCredentials);
-		return headers;
-	}
-
-	public String getExchangeWithAuth(String url, HttpEntity<String> request)
+	@HystrixCommand(fallbackMethod = "failBackWithBasicAuth")
+	public String getExchangeWithBasicAuth(String url, HttpServletRequest request, MultiValueMap<String, String> param)
 			throws RestClientException, URISyntaxException {
-		System.out.println("##############");
-		System.out.println(resource.getAccessTokenUri());
-		System.out.println(resource.getTokenName());
-		System.out.println(resource.getClientId());
-		System.out.println(context.getAccessToken().getValue());
-		System.out.println(context.getAccessTokenRequest().getAuthorizationCode());
-		OAuth2RestOperations op = new OAuth2RestTemplate(resource, context);
-		HttpEntity<String> request11 = new HttpEntity<String>(getHeadersWithClientCredentials());
-		String result = op.exchange(new URI(url), HttpMethod.GET, request11, String.class).getBody();
+		HttpEntity<String> httpEntity = new HttpEntity<String>(BasicHeadersUtil.getHeadersWithClientCredentials());
+		String result = restTemplate.exchange(new URI(url), HttpMethod.GET, httpEntity, String.class).getBody();
+		return result;
+	}
+	
+	public String getExchangeWithOauth2(String url, HttpServletRequest request, MultiValueMap<String, String> param)
+			throws RestClientException, URISyntaxException {
+		HttpEntity<String> httpEntity = new HttpEntity<String>("");
+		String result = oAuth2RestOperations.exchange(new URI(url), HttpMethod.GET, httpEntity, String.class).getBody();
 		return result;
 	}
 
 	public String failBack(String url, Object request) {
+		System.out.println("error: " + url);
+		JSONObject json = new JSONObject();
+		json.put("errorcode", "serviceExcp");
+		return json.toString();
+	}
+	
+	public String failBackWithBasicAuth(String url, HttpServletRequest request, MultiValueMap<String, String> param) {
 		System.out.println("error: " + url);
 		JSONObject json = new JSONObject();
 		json.put("errorcode", "serviceExcp");

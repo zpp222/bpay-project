@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class BpayClientApplication {
 
-	@Bean
+	@Bean("nooauth")
 	@LoadBalanced
 	RestTemplate restTemplate() {
 		return new RestTemplate();
