@@ -25,9 +25,7 @@ public class ConsumerController {
 	@Autowired
 	ConsumerService consumerService;
 
-//	@RequestMapping(value = "/bpaylogin", method = {RequestMethod.POST,RequestMethod.GET}, produces = {"application/json" }, consumes = "application/json")
 	@RequestMapping(value = "/bpaylogin", method = {RequestMethod.POST,RequestMethod.GET})
-//	public String login(@RequestBody String requestJson) {
 	public String login(@RequestParam String name,@RequestParam String passwd) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -42,18 +40,13 @@ public class ConsumerController {
 
 	@RequestMapping(value = "/auth1", method = RequestMethod.GET)
 	public String oauth(@RequestHeader HttpHeaders headers,HttpServletRequest httpRequest) throws RestClientException, URISyntaxException {
-		String result = consumerService.getExchangeWithBasicAuth("http://localhost:9999/auth/open/test",httpRequest, headers);
+		String result = consumerService.getExchangeWithBasicAuth("http://bpay-gateway/auth/open/test",httpRequest, headers);
 		return result;
 	}
 	
 	@RequestMapping(value = "/auth2", method = RequestMethod.GET)
-	public String oauth2(@RequestHeader HttpHeaders headers,HttpServletRequest httpRequest) {
-		String result ="";
-		try {
-			result = consumerService.getExchangeWithOauth2("http://localhost:9999/auth/open/test",httpRequest,headers);
-		} catch (Exception e) {
-			result = e.getMessage();
-		}
+	public String oauth2(@RequestHeader HttpHeaders headers,HttpServletRequest httpRequest) throws RestClientException, URISyntaxException {
+		String result = consumerService.getExchangeWithOauth2("http://localhost:9999/auth/open/test",httpRequest,headers);
 		return result;
 	}
 }

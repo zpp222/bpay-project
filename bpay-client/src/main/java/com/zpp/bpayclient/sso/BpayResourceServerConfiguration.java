@@ -11,15 +11,14 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @Configuration
 @EnableResourceServer
 public class BpayResourceServerConfiguration extends ResourceServerConfigurerAdapter {
+
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.antMatcher("/").authorizeRequests().anyRequest()
-		.hasAnyAuthority("ROLE_USER")
-		.and().httpBasic();
+		http.antMatcher("/").authorizeRequests().anyRequest().hasAnyAuthority("ROLE_USER").and().httpBasic();
 	}
-	
+
 	@Bean("oauth")
 	public OAuth2RestTemplate restTemplate(UserInfoRestTemplateFactory factory) {
-	    return factory.getUserInfoRestTemplate();
+		return factory.getUserInfoRestTemplate();
 	}
 }
