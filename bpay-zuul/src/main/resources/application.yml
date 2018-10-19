@@ -5,7 +5,7 @@ server:
 zuul:
   routes:
     bpay:
-     path: /bpay
+     path: /pay/**
      serviceId: bpay-console
      
 eureka:
