@@ -22,8 +22,8 @@ public class AuthController {
 		return "oauth succ~";
 	}
 
-	@GetMapping("/open/test2")
-	@PreAuthorize("hasAnyRole('ROLE_USER2')")
+	@GetMapping("/basic/test2")
+	@PreAuthorize("hasAnyRole('ROLE_USER')")
 	public @ResponseBody String test2() {
 		return "oauth succ~";
 	}

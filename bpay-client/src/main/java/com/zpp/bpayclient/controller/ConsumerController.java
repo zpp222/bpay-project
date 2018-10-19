@@ -40,7 +40,7 @@ public class ConsumerController {
 
 	@RequestMapping(value = "/auth1", method = RequestMethod.GET)
 	public String oauth(@RequestHeader HttpHeaders headers,HttpServletRequest httpRequest) throws RestClientException, URISyntaxException {
-		String result = consumerService.getExchangeWithBasicAuth("http://bpay-gateway/auth/open/test",httpRequest, headers);
+		String result = consumerService.getExchangeWithBasicAuth("http://bpay-gateway/auth/basic/test2",httpRequest, headers);
 		return result;
 	}
 	

@@ -22,3 +22,6 @@ scope:openid
 browser: http://localhost:9999/auth/oauth/authorize?response_type=token&client_id=h5&redirect_uri=https://baidu.com
 4、用户名密码模式 grant_type=password
 post http://localhost:9999/auth/oauth/token?grant_type=password&client_id=app&client_secret=secret&username=zpp&password=zpp!
+
+5.refresh_token
+post http://localhost:9999/auth/oauth/token?grant_type=refresh_token&refresh_token=cf3cd5a1-63d4-453a-ba65-448c3b3b5f8f&client_id=app&client_secret=secret
