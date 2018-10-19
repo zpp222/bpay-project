@@ -11,6 +11,6 @@ public class BpayResourceServerConfiguration extends ResourceServerConfigurerAda
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.antMatcher("/pay/**").authorizeRequests().anyRequest().authenticated();
+		http.antMatcher("/**").authorizeRequests().anyRequest().authenticated();
 	}
 }
