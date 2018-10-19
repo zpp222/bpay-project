@@ -21,11 +21,3 @@ eureka:
   instance:
     ip-address: 127.0.0.1
     prefer-ip-address: true
-security:
-  oauth2:
-    client:
-      tokenName: oauth_token
-      authenticationScheme: query
-      clientAuthenticationScheme: form
-    resource:
-      user-info-uri: http://localhost:9999/auth/me
