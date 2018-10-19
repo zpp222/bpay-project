@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthController {
 
-	@RequestMapping("/user")
+	@RequestMapping("/open/user")
 	public Principal user(Principal principal) {
 		return principal;
 	}
