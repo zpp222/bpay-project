@@ -14,7 +14,9 @@
 ### 1. kafka for store with service.
 
 ## Cloud Routing
-### Spring Cloud Gateway(NIO)
+### 1.Spring Cloud Gateway(NIO)
+### 2.zuul
 
 ## OAuth2
-### OAuth2 and client
+### 1.OAuth2 and client
+### 2.zuul api
