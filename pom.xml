@@ -16,6 +16,7 @@
 		<module>bpay-gateway</module>
 		<module>bpay-oauth2</module>
 		<module>bpay-zuul</module>
+		<module>bpay-batch</module>
 	</modules>
 
 	<parent>
