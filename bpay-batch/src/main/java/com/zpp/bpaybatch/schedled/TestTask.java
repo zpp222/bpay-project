@@ -11,7 +11,7 @@ import org.springframework.batch.core.configuration.JobLocator;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import com.zpp.bpaybatch.job.util.SpringContextUtil;
+import com.zpp.bpaybatch.util.SpringContextUtil;
 
 public class TestTask extends QuartzJobBean {
 

@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
-import com.zpp.bpaybatch.job.util.SpringContextUtil;
+import com.zpp.bpaybatch.util.SpringContextUtil;
 
 @SpringBootApplication
 public class BpayBatchApplication {

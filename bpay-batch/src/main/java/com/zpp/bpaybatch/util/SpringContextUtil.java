@@ -1,4 +1,4 @@
-package com.zpp.bpaybatch.job.util;
+package com.zpp.bpaybatch.util;
 
 import org.springframework.context.ApplicationContext;
 
