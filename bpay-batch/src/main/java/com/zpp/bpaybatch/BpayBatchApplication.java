@@ -8,5 +8,6 @@ public class BpayBatchApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BpayBatchApplication.class, args);
+		com.alibaba.dubbo.container.Main.main(args);
 	}
 }
