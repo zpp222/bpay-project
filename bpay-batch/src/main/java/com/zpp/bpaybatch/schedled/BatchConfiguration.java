@@ -38,7 +38,7 @@ public class BatchConfiguration {
 	@Bean
 	public JobDetailFactoryBean jobDetailFactoryBean() {
 		JobDetailFactoryBean jobFactory = new JobDetailFactoryBean();
-		jobFactory.setJobClass(TestTask2.class);
+		jobFactory.setJobClass(TestTask.class);
 		jobFactory.setGroup("my_group");
 		jobFactory.setName("my_job");
 		Map<String, Object> map = new HashMap<>();
