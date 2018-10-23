@@ -11,22 +11,24 @@ import org.springframework.batch.core.configuration.JobLocator;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+import com.zpp.bpaybatch.job.util.SpringContextUtil;
+
 public class TestTask extends QuartzJobBean {
+
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		JobDetail jobDetail = context.getJobDetail();
 		JobDataMap jobDataMap = jobDetail.getJobDataMap();
 		String jobName = jobDataMap.getString("jobName");
-		JobLauncher jobLauncher = (JobLauncher) jobDataMap.get("jobLauncher");
-		JobLocator jobLocator = (JobLocator) jobDataMap.get("jobLocator");
-
+		JobLauncher jobLauncher = (JobLauncher) SpringContextUtil.getBean(JobLauncher.class);
+		JobLocator jobLocator = (JobLocator) SpringContextUtil.getBean(JobLocator.class);
 		try {
 			Job job = jobLocator.getJob(jobName);
-			/* 启动spring batch的job */
 			JobExecution jobExecution = jobLauncher.run(job, new JobParameters());
 			jobExecution.getExitStatus();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
 }

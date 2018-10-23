@@ -5,10 +5,8 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.springframework.batch.core.configuration.JobLocator;
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor;
-import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,12 +16,6 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 @Configuration
 public class BatchConfiguration {
-
-	@Autowired
-	private JobLauncher jobLauncher;
-
-	@Autowired
-	private JobLocator jobLocator;
 
 	@Autowired
 	private DataSource dataSource;
@@ -43,8 +35,6 @@ public class BatchConfiguration {
 		jobFactory.setName("my_job");
 		Map<String, Object> map = new HashMap<>();
 		map.put("jobName", "importUserJob");
-		map.put("jobLauncher", jobLauncher);
-		map.put("jobLocator", jobLocator);
 		jobFactory.setJobDataAsMap(map);
 		return jobFactory;
 	}
