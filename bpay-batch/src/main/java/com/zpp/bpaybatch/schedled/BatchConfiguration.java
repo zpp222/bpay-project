@@ -3,6 +3,8 @@ package com.zpp.bpaybatch.schedled;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
 import org.springframework.batch.core.configuration.JobLocator;
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor;
@@ -22,6 +24,9 @@ public class BatchConfiguration {
 
 	@Autowired
 	private JobLocator jobLocator;
+
+	@Autowired
+	private DataSource dataSource;
 
 	@Bean
 	public JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor(JobRegistry jobRegistry) {
@@ -59,6 +64,7 @@ public class BatchConfiguration {
 	public SchedulerFactoryBean schedulerFactoryBean() {
 		SchedulerFactoryBean schedulerFactor = new SchedulerFactoryBean();
 		schedulerFactor.setTriggers(cronTriggerFactoryBean().getObject());
+		schedulerFactor.setDataSource(dataSource);
 		return schedulerFactor;
 	}
 }
