@@ -10,9 +10,12 @@ import org.springframework.batch.core.configuration.support.JobRegistryBeanPostP
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+
+import com.zpp.bpaybatch.util.SpringContextUtil;
 
 @Configuration
 public class BatchConfiguration {
@@ -55,6 +58,8 @@ public class BatchConfiguration {
 		SchedulerFactoryBean schedulerFactor = new SchedulerFactoryBean();
 		schedulerFactor.setTriggers(cronTriggerFactoryBean().getObject());
 		schedulerFactor.setDataSource(dataSource);
+		schedulerFactor.setApplicationContext(SpringContextUtil.getApplicationContext());
+		schedulerFactor.setConfigLocation(new ClassPathResource("quartz.properties"));
 		return schedulerFactor;
 	}
 }

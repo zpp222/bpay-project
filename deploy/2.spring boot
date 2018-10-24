@@ -38,9 +38,9 @@ cp Dockerfile and bpay-client-0.0.1-SNAPSHOT.jar to here.
 docker build -t client_docker .
 docker run -d --name=client_docker_node1 -p 3333:3333 --net net_docker --ip 172.18.0.13 client_docker
 
-
-
-
-
-
-docker inspect c5217f7bd44c|grep IPAddress
+###########################bpay-client#################################
+cd /Users/zpp/docker/batch
+cp Dockerfile and bpay-batch-0.0.1-SNAPSHOT.jar to here.
+### 构建镜像
+docker build -t batch_docker .
+docker run -d --name=batch_docker_node1 --net net_docker --ip 172.18.0.16 batch_docker
