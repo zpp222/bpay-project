@@ -22,4 +22,4 @@
 ### 2.zuul api
 
 ## batch+quartz
-### 1. bpay-batch for batch job.
+>### 1. bpay-batch for batch job.
