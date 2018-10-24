@@ -46,7 +46,7 @@ public class BatchConfiguration {
 		cTrigger.setStartDelay(5000);
 		cTrigger.setName("my_trigger");
 		cTrigger.setGroup("trigger_group");
-		cTrigger.setCronExpression("0/30 * * * * ? ");
+		cTrigger.setCronExpression(" 0 1/5 * * * ? "); // 从1分开始每5分钟
 		return cTrigger;
 	}
 

@@ -8,10 +8,10 @@ spring:
     table-prefix: BATCH_
     job:
       enabled: false
-    initialize-schema: always
+    initialize-schema: NEVER
     schema: spring_batch_ddl.sql
   quartz:
     job-store-type: JDBC
     jdbc:
-      initialize-schema: always
+      initialize-schema: NEVER
       schema: spring_quartz_ddl.sql
