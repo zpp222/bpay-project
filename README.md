@@ -23,8 +23,7 @@
 
 ## batch+quartz
 > 1. bpay-batch for batch job.
-```
-```
+
 ## 架构图
 ```mermaid
 sequenceDiagram
