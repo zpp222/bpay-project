@@ -23,3 +23,25 @@
 
 ## batch+quartz
 > 1. bpay-batch for batch job.
+```
+```
+## 架构图
+```mermaid
+sequenceDiagram
+client/user ->> gateway/zuul: 接口请求
+gateway/zuul -->> oauth2: 是否有效令牌?
+oauth2 -->> gateway/zuul: 否
+oauth2 -->> client/user: 登陆页面
+client/user ->> oauth2: 登陆请求
+oauth2 ->> console: 接口请求
+console ->> service: 远程服务请求
+service -->> client/user: 响应结果
+Note right of oauth2: sso 单点登陆
+```
+```
+```
+```mermaid
+sequenceDiagram
+service ->> store: 异步消息
+store -->> batch: 数据加工
+```
