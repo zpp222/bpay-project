@@ -21,5 +21,5 @@
 ### 1.OAuth2 and client
 ### 2.zuul api
 
-## batch
+## batch+quartz
 ### 1. bpay-batch for batch job.
