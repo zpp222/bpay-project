@@ -59,7 +59,7 @@ public class BatchConfiguration {
 		schedulerFactor.setTriggers(cronTriggerFactoryBean().getObject());
 		schedulerFactor.setDataSource(dataSource);
 		schedulerFactor.setApplicationContext(SpringContextUtil.getApplicationContext());
-		schedulerFactor.setConfigLocation(new ClassPathResource("quartz.properties"));
+		schedulerFactor.setConfigLocation(new ClassPathResource("quartz/quartz.properties"));
 		return schedulerFactor;
 	}
 }
