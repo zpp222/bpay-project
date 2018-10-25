@@ -1,28 +1,29 @@
 # bpay-project
 
-## spring boot/cloud
-> 1.dubbo for service and console.
-> 2.eureka for console and client with eureka.
-> 3.Hystrix for client
+>## spring boot/cloud
+### 1.dubbo for service and console.
+### 2.eureka for console and client with eureka.
+### 3.Hystrix for client
 
-## db
-> 1.mysql relation db for service.
-> 2.mongodb document store for store.
-> 3.redis\hezalcast key/value for service.
+>## db
+### 1.mysql relation db for service.
+### 2.mongodb document store for store.
+### 3.redis\hezalcast key/value for service.
 
-## Messaging
-> 1. kafka for store with service.
+>## Messaging
+### 1. kafka for store with service.
 
-## Cloud Routing
-> 1.Spring Cloud Gateway(NIO)
-> 2.zuul
+>## Cloud Routing
+### 1.Spring Cloud Gateway(NIO)
+### 2.zuul
 
-## OAuth2
-> 1.OAuth2 and client
-> 2.zuul api
+>## OAuth2
+### 1.OAuth2 for sso-provider 
+### 2.client for sso-client
+### 2.zuul for sso-resource
 
-## batch+quartz
-> 1. bpay-batch for batch job.
+>## batch+quartz
+### 1. bpay-batch for batch job.
 
 ## 架构图
 ```mermaid
