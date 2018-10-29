@@ -26,22 +26,30 @@
 #### 1. bpay-batch for batch job.
 
 ## 架构图
+> URL API方式
 ```mermaid
 sequenceDiagram
-client/user ->> gateway/zuul: 接口请求
-gateway/zuul -->> oauth2: 是否有效令牌?
-oauth2 -->> gateway/zuul: 否
-oauth2 -->> client/user: 登陆页面
-client/user ->> oauth2: 登陆请求
-oauth2 ->> console: 接口请求
-console ->> service: 远程服务请求
-service -->> client/user: 响应结果
+api ->> zuul: 接口请求
+zuul ->> oauth2: 是否有效令牌？
+oauth2 -->> zuul: 令牌无效(拒绝)
+zuul ->> console: 令牌有效-http请求
+console ->> service: dubbo远程服务请求
+service -->> api: 响应结果
+service -->> store: 消息流
+store -->> batch: 批量数据加工
 Note right of oauth2: sso 单点登陆
 ```
-```
-```
+> browser 方式
 ```mermaid
 sequenceDiagram
-service ->> store: 异步消息
-store -->> batch: 数据加工
+browser ->> client: 请求
+client ->> oauth2: 是否有效令牌？
+oauth2 -->> client: 令牌无效(跳转登陆页面)
+client ->> gateway: 令牌有效
+gateway ->> console: http请求
+console ->> service: dubbo远程服务请求
+service -->> browser: 响应结果
+service -->> store: 消息流
+store -->> batch: 批量数据加工
+Note right of oauth2: sso 单点登陆
 ```
