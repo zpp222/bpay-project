@@ -18,6 +18,8 @@ Authorization: Basic Auth (app/secret)
 body:
 grant_type:client_credentials
 scope:openid
+or post request :
+post http://localhost:9999/auth/oauth/token?grant_type=client_credentials&client_id=app&client_secret=secret
 3、简化（隐形）Impilict模式 response_type=token
 browser: http://localhost:9999/auth/oauth/authorize?response_type=token&client_id=h5&redirect_uri=https://baidu.com
 4、用户名密码模式 grant_type=password
