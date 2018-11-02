@@ -6,6 +6,7 @@
 	<artifactId>bpay-project</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+
 	<modules>
 		<module>bpay-console</module>
 		<module>bpay-service</module>
@@ -19,6 +20,14 @@
 		<module>bpay-batch</module>
 	</modules>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<spring-cloud.version>Finchley.BUILD-SNAPSHOT</spring-cloud.version>
+	</properties>
+
+	<!-- spring boot -->
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -26,10 +35,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
-	<properties>
-		<spring-cloud.version>Finchley.BUILD-SNAPSHOT</spring-cloud.version>
-	</properties>
-
+	<!-- spring cloud -->
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -42,6 +48,7 @@
 		</dependencies>
 	</dependencyManagement>
 
+	<!-- 通用jar -->
 	<dependencies>
 		<dependency>
 			<groupId>log4j</groupId>
@@ -56,6 +63,26 @@
 		</dependency>
 	</dependencies>
 
+	<!-- profile -->
+	<profiles>
+		<profile>
+			<id>docker</id>
+			<properties>
+				<profiles.active>docker</profiles.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<profiles.active>dev</profiles.active>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+	</profiles>
+
+	<!-- spring repositories -->
 	<repositories>
 		<repository>
 			<id>spring-snapshots</id>
@@ -74,22 +101,4 @@
 			</snapshots>
 		</repository>
 	</repositories>
-
-	<profiles>
-		<profile>
-			<id>docker</id>
-			<properties>
-				<profiles.active>docker</profiles.active>
-			</properties>
-		</profile>
-		<profile>
-			<id>dev</id>
-			<properties>
-				<profiles.active>dev</profiles.active>
-			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-		</profile>
-	</profiles>
 </project>

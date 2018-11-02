@@ -18,7 +18,7 @@ public class LoginController {
 
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Reference
+	@Reference(timeout=30000,lazy=true) // 超时时间30秒(单位:ms)
 	UserService userService;
 	
 	@RequestMapping("/**")
