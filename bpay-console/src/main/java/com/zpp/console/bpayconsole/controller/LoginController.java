@@ -18,7 +18,7 @@ public class LoginController {
 
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Reference
+	@Reference(timeout=30000,lazy=true) // 超市时间30秒
 	UserService userService;
 	
 	@RequestMapping("/**")
