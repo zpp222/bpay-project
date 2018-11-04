@@ -18,6 +18,7 @@
 		<module>bpay-oauth2</module>
 		<module>bpay-zuul</module>
 		<module>bpay-batch</module>
+		<module>bpay-config-server</module>
 	</modules>
 
 	<properties>

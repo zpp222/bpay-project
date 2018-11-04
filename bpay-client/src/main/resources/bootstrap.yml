@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: bpay-client
+  cloud:
+    config:
+      uri: http://localhost:1021/
+      profile: dev
+      label: master
