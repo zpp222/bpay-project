@@ -36,6 +36,7 @@ CREATE TABLE `authorities` (
 BEGIN;
 INSERT INTO `authorities` VALUES ('zpp', 'ROLE_ADMIN', 0000000001);
 INSERT INTO `authorities` VALUES ('zpp', 'ROLE_USER', 0000000002);
+INSERT INTO `authorities` VALUES ('zpp', 'ROLE_ENDPOINT_ADMIN', 0000000004);
 COMMIT;
 
 -- ----------------------------
