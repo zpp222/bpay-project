@@ -7,4 +7,9 @@ spring:
         git:
           uri: https://github.com/zpp222/bpay-config-repo
 server:
-  port: 1021
+  port: 9021
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

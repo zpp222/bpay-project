@@ -25,33 +25,8 @@
 >## batch+quartz
 #### 1. bpay-batch for batch job.
 
-## 架构图
-> URL API方式
-```mermaid
-sequenceDiagram
-api ->> zuul: 接口请求
-zuul ->> oauth2: 是否有效令牌？
-oauth2 -->> zuul: 令牌无效(拒绝)
-zuul ->> console: 令牌有效-http请求
-console ->> service: dubbo远程服务请求
-service -->> api: 响应结果
-service -->> store: 消息流
-store -->> batch: 批量数据加工
-Note right of oauth2: sso 单点登陆
-```
-> browser 方式
-```mermaid
-sequenceDiagram
-browser ->> client: 请求
-client ->> oauth2: 是否有效令牌？
-oauth2 -->> client: 令牌无效(跳转登陆页面)
-client ->> gateway: 令牌有效
-gateway ->> console: http请求
-console ->> service: dubbo远程服务请求
-service -->> browser: 响应结果
-service -->> store: 消息流
-store -->> batch: 批量数据加工
-Note right of oauth2: sso 单点登陆
-```
-date: 2018年11月3日
-author: zpp
+>## config
+#### 1. bpay-config-server 配置中心
+
+>## bus
+#### 1. 配置中心config动态刷新
