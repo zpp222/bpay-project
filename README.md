@@ -25,9 +25,9 @@
 >## batch+quartz
 #### 1. bpay-batch for batch job.
 
->## config
+>## config server
 #### 1. bpay-config-server 配置中心
 
->## bus
-#### 1. 配置中心config动态刷新
+>## spring cloud bus
+#### 1. 配置中心config动态刷新 between config-server and client etc...
 >#### post http://localhost:{port}/actuator/bus-refresh
