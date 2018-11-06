@@ -30,3 +30,4 @@
 
 >## bus
 #### 1. 配置中心config动态刷新
+>#### post http://localhost:{port}/actuator/bus-refresh

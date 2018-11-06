@@ -1,2 +1,5 @@
+#刷新config
 post http://localhost:3333/actuator/refresh
-刷新config
+
+# bus 动态刷新配置
+post http://localhost:3333/actuator/bus-refresh
