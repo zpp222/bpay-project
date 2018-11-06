@@ -1,13 +1,13 @@
 server:
   port: 2222
-  
-  
 zuul:
   routes:
     bpay:
-     path: /pay/**
-     serviceId: bpay-console
-     
+      path: /pay/**
+      serviceId: bpay-console
+    baidu:
+      path: /baidu/**
+      url: ${baidu}
 eureka:
   client:
     fetch-registry: true

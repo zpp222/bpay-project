@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: bpay-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/zpp222/bpay-config-repo
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+server:
+  port: 9021
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+security:
+  oauth2:
+    client:
+      access-token-uri: http://localhost:9999/auth/oauth/token
+      user-authorization-uri: http://localhost:9999/auth/oauth/authorize
+      client-id: client
+      client-secret: secret
+    resource:
+      token-info-uri: http://localhost:9999/auth/oauth/check_token
