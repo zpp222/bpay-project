@@ -6,6 +6,15 @@
 	<artifactId>bpay-project</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	<name>bpay-project</name>
+	<url>https://zpp222.github.io/bpay-project/</url>
+	<organization>
+		<name>com.zpp</name>
+		<url>https://github.com/zpp222</url>
+	</organization>
+	<scm>
+		<url>https://github.com/zpp222/bpay-project.git</url>
+	</scm>
 
 	<modules>
 		<module>bpay-console</module>
